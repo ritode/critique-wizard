@@ -14,13 +14,6 @@ export default function Room(props) {
   const { nodes, materials } = useGLTF("models/room.glb");
   const [hovered, setHovered] = useState();
   const [critiqMode, setCritiqMode] = useState(false);
-  //   const config = useControls({
-  //     all: { value: false },
-  //     parts: FileLoader({
-  //       table: { value: false },
-  //       chairs: { value: false },
-  //     }),
-  //   });
 
   const [spheres, setSpheres] = useState([]);
 
@@ -46,7 +39,6 @@ export default function Room(props) {
     };
   }, []);
 
-  // Function to add a new sphere to the state
   const addSphere = (position) => {
     if (critiqMode)
       setSpheres([
@@ -61,12 +53,17 @@ export default function Room(props) {
   const onExit = (e) => {
     setHovered("");
   };
-  const handleSave = (index, newText) => {
-    // Update the text data of the sphere at the specified index
-    const updatedSpheres = [...spheres];
-    updatedSpheres[index].text = newText;
-    // updatedSpheres[index].position = position;
-    setSpheres(updatedSpheres);
+  const handleSave = (id, newText) => {
+    setSpheres((prevSpheres) => {
+      return prevSpheres.map((sphere) => {
+        if (sphere.id === id) {
+          // If the sphere's id matches the specified id, update the text
+          return { ...sphere, text: newText };
+        } else {
+          return sphere; // Keep other spheres unchanged
+        }
+      });
+    });
   };
 
   useEffect(() => {
@@ -100,7 +97,7 @@ export default function Room(props) {
           <Html distanceFactor={10}>
             <textarea
               value={sphere.text}
-              onChange={(e) => handleSave(index, e.target.value)}
+              onChange={(e) => handleSave(sphere.id, e.target.value)}
             />
             <button
               className="comment-del"
