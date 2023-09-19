@@ -57,18 +57,13 @@ export default function Room(props) {
     setSpheres((prevSpheres) => {
       return prevSpheres.map((sphere) => {
         if (sphere.id === id) {
-          // If the sphere's id matches the specified id, update the text
           return { ...sphere, text: newText };
         } else {
-          return sphere; // Keep other spheres unchanged
+          return sphere;
         }
       });
     });
   };
-
-  useEffect(() => {
-    console.log(spheres);
-  }, [spheres]);
 
   const handleDelete = (id) => {
     setSpheres((prevSpheres) => {
@@ -93,9 +88,10 @@ export default function Room(props) {
       </mesh>
       {spheres.map((sphere, index) => (
         <Sphere key={sphere.id} args={[0.1, 16, 16]} position={sphere.position}>
-          <meshBasicMaterial attach="material" color="pink" />
+          <meshBasicMaterial attach="material" color="lightGreen" />
           <Html distanceFactor={10}>
             <textarea
+              className="comment-text"
               value={sphere.text}
               onChange={(e) => handleSave(sphere.id, e.target.value)}
             />

@@ -9,6 +9,14 @@
   left: 50%;
   transform: translate(-50%, 0);
 }
+.comment-text {
+  background-color: #0000001a;
+  color: black;
+}
+.comment-del {
+  background-color: #00000000;
+  border: 0px;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
