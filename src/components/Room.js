@@ -1,6 +1,6 @@
-import { useGLTF, Sphere } from "@react-three/drei";
-import { useEffect, useRef, useState } from "react";
-import { Html } from "@react-three/drei";
+import { useGLTF } from "@react-three/drei";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
+import CommentSphere from "./CommentSphere";
 import { v4 as uuid } from "uuid";
 import {
   EffectComposer,
@@ -39,13 +39,13 @@ export default function Room(props) {
     };
   }, []);
 
-  const addSphere = (position) => {
-    if (critiqMode)
-      setSpheres([
-        ...spheres,
-        { id: uuid(), position: sphere.current.position, text: "" },
-      ]);
-  };
+  const addSphere = useCallback(
+    (position) => {
+      if (critiqMode)
+        setSpheres([...spheres, { id: uuid(), position, text: "" }]);
+    },
+    [critiqMode, spheres]
+  );
 
   const onHover = (e) => {
     setHovered(e.object.name);
@@ -53,7 +53,7 @@ export default function Room(props) {
   const onExit = (e) => {
     setHovered("");
   };
-  const handleSave = (id, newText) => {
+  const handleSave = useCallback((id, newText) => {
     setSpheres((prevSpheres) => {
       return prevSpheres.map((sphere) => {
         if (sphere.id === id) {
@@ -63,13 +63,27 @@ export default function Room(props) {
         }
       });
     });
-  };
+  }, []);
 
-  const handleDelete = (id) => {
+  const handleDelete = useCallback((id) => {
     setSpheres((prevSpheres) => {
       return prevSpheres.filter((s) => s.id !== id);
     });
-  };
+  }, []);
+  const sphereComponents = useMemo(
+    () =>
+      spheres.map((sphere) => (
+        <CommentSphere
+          key={sphere.id}
+          id={sphere.id}
+          position={sphere.position}
+          text={sphere.text}
+          handleSave={handleSave}
+          handleDelete={handleDelete}
+        />
+      )),
+    [spheres, handleSave, handleDelete]
+  );
   return (
     <group
       {...props}
@@ -86,24 +100,7 @@ export default function Room(props) {
         <sphereGeometry args={[0.2]} />
         <meshBasicMaterial color="orange" toneMapped={false} />
       </mesh>
-      {spheres.map((sphere, index) => (
-        <Sphere key={sphere.id} args={[0.1, 16, 16]} position={sphere.position}>
-          <meshBasicMaterial attach="material" color="lightGreen" />
-          <Html distanceFactor={10}>
-            <textarea
-              className="comment-text"
-              value={sphere.text}
-              onChange={(e) => handleSave(sphere.id, e.target.value)}
-            />
-            <button
-              className="comment-del"
-              onClick={() => handleDelete(sphere.id)}
-            >
-              ❌
-            </button>
-          </Html>
-        </Sphere>
-      ))}
+      {sphereComponents}
       <group scale={0.01}>
         <group
           position={[388.469, 117.552, -211.434]}

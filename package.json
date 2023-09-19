@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://ritode.github.io/critique-wizard/",
   "dependencies": {
+    "@mediapipe/tasks-vision": "^0.10.6",
     "@react-three/drei": "^9.84.0",
     "@react-three/fiber": "^8.14.2",
     "@react-three/postprocessing": "^2.15.1",
