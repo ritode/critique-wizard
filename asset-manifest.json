@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/critique-wizard/static/css/main.48601878.css",
-    "main.js": "/critique-wizard/static/js/main.da56a8f5.js",
+    "main.js": "/critique-wizard/static/js/main.fa290efe.js",
     "static/js/787.6eb37e88.chunk.js": "/critique-wizard/static/js/787.6eb37e88.chunk.js",
     "index.html": "/critique-wizard/index.html",
     "main.48601878.css.map": "/critique-wizard/static/css/main.48601878.css.map",
-    "main.da56a8f5.js.map": "/critique-wizard/static/js/main.da56a8f5.js.map",
+    "main.fa290efe.js.map": "/critique-wizard/static/js/main.fa290efe.js.map",
     "787.6eb37e88.chunk.js.map": "/critique-wizard/static/js/787.6eb37e88.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.48601878.css",
-    "static/js/main.da56a8f5.js"
+    "static/js/main.fa290efe.js"
   ]
 }
